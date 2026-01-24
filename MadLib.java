@@ -41,22 +41,24 @@ public class MadLib
 			//While there is more of the story, read in the word/symbol
 			while(chopper.hasNext())
 			{
+				//Make a string so that "chopper.next()" is not called multiple times, which I learned will keep going through the words
+				String x = chopper.next();
 				//If what was read in is one of the symbols, find a random
 				//word to replace it.
-				if(chopper.next().equals("#"))
+				if(x.equals("#"))
 				{
 					story += " " + getRandomNoun();
 				}
-				else if(chopper.next().equals("@"))
+				else if(x.equals("@"))
 				{
 					story += " " + getRandomVerb();
 				}
-				else if(chopper.next().equals("&"))
+				else if(x.equals("&"))
 				{
 					story += " " + getRandomAdjective();
 				}
 				else
-					story += " " + chopper.next();
+					story += " " + x;
 			}
 			chopper.close();
 		}
@@ -76,7 +78,7 @@ public class MadLib
 			Scanner reader = new Scanner(new File("nouns.dat"));
 			while(reader.hasNext())
 			{
-				System.out.println(reader.nextLine());
+				nouns.add(reader.nextLine());
 			}
 			reader.close();
 		}
@@ -96,7 +98,7 @@ public class MadLib
 			Scanner reader = new Scanner(new File("verbs.dat"));
 			while(reader.hasNext())
 			{
-				System.out.println(reader.nextLine());
+				verbs.add(reader.nextLine());
 			}
 			reader.close();
 		}
@@ -115,7 +117,7 @@ public class MadLib
 			Scanner reader = new Scanner(new File("adjectives.dat"));
 			while(reader.hasNext())
 			{
-				System.out.println(reader.nextLine());
+				adjectives.add(reader.nextLine());
 			}
 			reader.close();
 		}
@@ -129,17 +131,18 @@ public class MadLib
 
 	public String getRandomVerb()
 	{
-		return "" + verbs.get(((int)(Math.random())) * verbs.size() + 1);
+		return "" + verbs.get((int)(Math.random() * verbs.size()));
 	}
 
 	public String getRandomNoun()
 	{
-		return "" + nouns.get(((int)(Math.random())) * nouns.size() + 1);
+		Random rand = new Random();
+		return "" + nouns.get(rand.nextInt(nouns.size()));
 	}
 
 	public String getRandomAdjective()
 	{
-		return "" + adjectives.get(((int)(Math.random())) * adjectives.size()  + 1);
+		return "" + adjectives.get((int)(Math.random() * adjectives.size()));
 	}
 
 	public String toString()
